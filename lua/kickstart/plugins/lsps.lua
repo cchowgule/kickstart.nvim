@@ -217,7 +217,6 @@ return {
         },
       },
       eslint = {},
-      marksman = {},
       texlab = {
         settings = {
           texlab = {

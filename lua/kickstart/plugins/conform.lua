@@ -41,6 +41,7 @@ return { -- Autoformat
       typescript = { 'prettierd', 'prettier', stop_after_first = true },
       javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      markdown = { 'prettierd', 'prettier', stop_after_first = true },
       json = { 'jq' },
       -- You can use 'stop_after_first' to run the first available formatter from the list
       -- eg. javascript = { "prettierd", "prettier", stop_after_first = true },

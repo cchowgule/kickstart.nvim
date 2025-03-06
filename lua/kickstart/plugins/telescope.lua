@@ -28,6 +28,25 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- Useful for getting pretty icons, but requires a Nerd Font.
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    'PhilippFeO/telescope-filelinks.nvim',
+    {
+      'olacin/telescope-cc.nvim',
+      keys = {
+        {
+          '<leader>sc',
+          function()
+            local actions = require 'telescope._extensions.conventional_commits.actions'
+            local picker = require 'telescope._extensions.conventional_commits.picker'
+
+            picker {
+              action = actions.prompt,
+              include_body_and_footer = false,
+            }
+          end,
+          desc = '[S]earch [C]onventional Commits',
+        },
+      },
+    },
   },
   config = function()
     -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -71,6 +90,15 @@ return { -- Fuzzy Finder (files, lsp, etc)
     -- Enable Telescope extensions if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
+    pcall(require('telescope').load_extension 'filelinks')
+    pcall(require('telescope').load_extension 'conventional_commits')
+
+    -- Filelinks
+    local filelinks = require('telescope').extensions['filelinks']
+    filelinks.setup {}
+
+    -- vim.keymap.set('i', '<C-l>', ':Telescope filelinks make_filelink', { desc = '[<C>]reate [l]ink in Insert Mode' })
+    vim.keymap.set('n', '<Leader>sl', ':Telescope filelinks make_filelink<CR>', { desc = '[S]earch File [L]ink' })
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
