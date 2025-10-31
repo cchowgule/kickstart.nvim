@@ -681,7 +681,14 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {
+          -- Disable formatting capabilities
+          on_attach = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end,
+          -- Add any other ts_ls settings here
+        },
         --
 
         lua_ls = {
@@ -769,10 +776,19 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettier' },
+        typescript = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        jsx = { 'prettier' },
+        tsx = { 'prettier' },
+        -- You can also add other file types that prettier supports
+        css = { 'prettier' },
+        html = { 'prettier' },
+        json = { 'prettier' },
+        markdown = { 'prettier' },
       },
     },
   },
@@ -934,6 +950,7 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
+      require('mini.starter').setup()
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
