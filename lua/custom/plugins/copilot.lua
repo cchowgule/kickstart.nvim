@@ -48,30 +48,5 @@ return { -- Return a table containing plugin specifications
         server_opts_overrides = {}, -- Override server options (empty)
       } -- End of setup options
     end, -- End of config function
-  }, -- End of first plugin specification
-  { -- Second plugin specification (CopilotChat.nvim)
-    'CopilotC-Nvim/CopilotChat.nvim', -- Plugin repository for CopilotChat.nvim
-    branch = 'main', -- Use the main branch
-    dependencies = { -- List of plugin dependencies
-      { 'zbirenbaum/copilot.lua' }, -- or github/copilot.vim -- Copilot dependency
-      { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper -- Plenary dependency for utilities
-    }, -- End of dependencies
-    opts = { -- Options for CopilotChat
-      debug = false, -- Enable debugging               -- Disable debugging by default
-      -- See Configuration section for rest            -- Placeholder for more options
-    }, -- End of opts
-    config = function(_, opts) -- Configuration function for CopilotChat
-      local chat = require 'CopilotChat' -- Require CopilotChat module
-      chat.setup(opts) -- Setup CopilotChat with options
-      -- Set up key mappings
-      vim.keymap.set('n', '<leader>cc', ':CopilotChatToggle<CR>', { desc = 'Copilot Chat Toggle' }) -- Toggle chat in normal mode
-      vim.keymap.set('v', '<leader>ce', ':CopilotChatExplain<CR>', { desc = 'Copilot Chat Explain' }) -- Explain selection in visual mode
-      vim.keymap.set('v', '<leader>cr', ':CopilotChatReview<CR>', { desc = 'Copilot Chat Review' }) -- Review selection in visual mode
-      vim.keymap.set('v', '<leader>cf', ':CopilotChatFix<CR>', { desc = 'Copilot Chat Fix' }) -- Fix selection in visual mode
-      vim.keymap.set('v', '<leader>co', ':CopilotChatOptimize<CR>', { desc = 'Copilot Chat Optimize' }) -- Optimize selection in visual mode
-      vim.keymap.set('v', '<leader>cd', ':CopilotChatDocs<CR>', { desc = 'Copilot Chat Docs' }) -- Generate docs for selection in visual mode
-      vim.keymap.set('v', '<leader>ct', ':CopilotChatTests<CR>', { desc = 'Copilot Chat Tests' }) -- Generate tests for selection in visual mode
-    end, -- End of config function
-    -- See Commands section for default commands if you want to lazy load on them -- Comment about lazy loading
-  }, -- End of second plugin specification
+  },
 }

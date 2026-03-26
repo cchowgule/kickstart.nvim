@@ -13,13 +13,14 @@ return {
   },
   lazy = false,
   keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '\\', ':Neotree toggle<CR>', desc = 'NeoTree toggle', silent = true },
   },
   ---@module 'neo-tree'
   ---@type neotree.Config
   opts = {
     close_if_last_window = true,
     filesystem = {
+      hijack_netrw_behavior = 'disabled',
       window = {
         mappings = {
           ['\\'] = 'close_window',
