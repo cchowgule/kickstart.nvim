@@ -195,24 +195,17 @@ vim.diagnostic.config {
     },
   } or {},
 
-  -- Can switch between these as you prefer
   virtual_text = {
     source = true,
     spacing = 2,
     format = function(diagnostic)
-      local diagnostic_message = {
-        [vim.diagnostic.severity.ERROR] = diagnostic.message,
-        [vim.diagnostic.severity.WARN] = diagnostic.message,
-        [vim.diagnostic.severity.INFO] = diagnostic.message,
-        [vim.diagnostic.severity.HINT] = diagnostic.message,
-      }
-      return diagnostic_message[diagnostic.severity]
+      local prose_sources = { markdownlint = true, LTeX = true }
+      if prose_sources[diagnostic.source] then return nil end
+      return diagnostic.message
     end,
   },
 
-  virtual_lines = false, -- Text shows up underneath the line, with virtual lines
-
-  -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
+  virtual_lines = false,
   jump = { float = true },
 }
 
@@ -229,6 +222,9 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagn
 
 -- This is to exit terminal mode with Claude Code
 vim.keymap.set('t', '<C-space>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
+-- This is to render mermaid diagrams on hover
+vim.keymap.set('n', '<leader>md', function() require('diagram').show_diagram_hover() end, { desc = '[M]ermaid [D]iagram preview' })
 
 -- TIP: Disable arrow keys in normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
