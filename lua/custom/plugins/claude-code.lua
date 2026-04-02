@@ -1,14 +1,6 @@
 return {
   {
-    -- Required terminal provider for claudecode.nvim
-    'folke/snacks.nvim',
-    priority = 1000, -- load before everything else
-    lazy = false, -- must be available at startup
-    opts = {},
-  },
-  {
     'coder/claudecode.nvim',
-    dependencies = { 'folke/snacks.nvim' },
     opts = {
       terminal = {
         split_side = 'right',
