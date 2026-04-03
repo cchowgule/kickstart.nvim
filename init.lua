@@ -206,7 +206,9 @@ vim.diagnostic.config {
   },
 
   virtual_lines = false,
-  jump = { float = true },
+  jump = {
+    on_jump = function() vim.diagnostic.open_float() end,
+  },
 }
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -528,7 +530,23 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        config = function()
+          require('fidget').setup {}
+          vim.notify = require('fidget').notify
+
+          vim.keymap.set('n', '<leader>fh', function()
+            local output = vim.api.nvim_exec2('Fidget history', { output = true }).output
+            local buf = vim.api.nvim_create_buf(false, true)
+            vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, '\n'))
+            vim.api.nvim_open_win(buf, true, {
+              split = 'below',
+              win = 0,
+            })
+          end, { desc = 'Fidget history in buffer' })
+        end,
+      },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -686,7 +704,7 @@ require('lazy').setup({
         ltex = {
           language = 'en-IN', -- or "en-GB", etc.
           -- Add any files you want to check
-          filetypes = { 'markdown', 'text', 'latex', 'tex' },
+          filetypes = { 'markdown', 'text', 'tex' },
         },
       }
 
@@ -938,7 +956,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     lazy = false,
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    main = 'nvim-treesitter', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
@@ -988,6 +1006,8 @@ require('lazy').setup({
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
 }, { ---@diagnostic disable-line: missing-fields
+  rocks = { hererocks = false },
+
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
